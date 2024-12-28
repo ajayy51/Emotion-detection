@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Sentiment Classifier</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Customer Feedback Sentiment Classifier</h2>
+
+        <!-- Flex container for the two side-by-side forms -->
+        <div class="form-wrapper">
+            <!-- Form box for single feedback input -->
+            <div class="form-box">
+                <form action="/predict" method="post">
+                    <label for="feedback">Enter your feedback:</label>
+                    <textarea id="feedback" name="feedback" rows="4" cols="50"></textarea><br><br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <!-- Form box for CSV upload -->
+            <div class="form-box">
+                <form action="/upload_csv" method="post" enctype="multipart/form-data">
+                    <label for="file">Upload CSV File for Batch Analysis:</label>
+                    <input type="file" id="file" name="file" accept=".csv"><br><br>
+
+                    <label>Choose chart type:</label><br>
+                    <input type="radio" id="bar" name="chart" value="bar" checked>
+                    <label for="bar">Bar Chart</label><br>
+                    <input type="radio" id="pie" name="chart" value="pie">
+                    <label for="pie">Pie Chart</label><br><br>
+
+                    <button type="submit">Upload and Analyze</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Output section to display prediction and chart -->
+        <div class="output-section">
+            {% if prediction %}
+                <h3>Prediction Result</h3>
+                <p class="prediction">{{ prediction }}</p>
+            {% endif %}
+
+            {% if chart_url %}
+                <h3>Emotion Distribution</h3>
+                <img src="{{ chart_url }}" alt="Emotion Distribution Chart">
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
